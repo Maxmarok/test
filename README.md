@@ -40,7 +40,7 @@
   - `docker-compose up -d` - запускаем среду
   - `docker-compose exec app composer install` - устанавливаем пакеты
   - `docker-compose exec app php artisan key:generate` - генерируем ключ
-  - `docker-compose exec app php artisan migrate:fresh` - перезапускаем миграции (убедитесь, что в база пустая)
+  - `docker-compose exec app php artisan migrate:fresh` - перезапускаем миграции (убедитесь, что база пустая)
   - `docker-compose exec app php artisan test` - прогоняем unit-тесты (опционально)
   - `docker-compose run --rm npm install && docker-compose run --rm npm run prod` - компилим фронтенд часть
 
