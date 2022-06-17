@@ -4,15 +4,29 @@
 ### Товары с максимальной ценой  
 
 Запрос:  
-`select * from items i1 left join items i2 on i1.category_id = i2.category_id and i1.price < i2.price where i2.price is null;`
+`select * 
+    from items i1 
+    left join items i2 
+        on i1.category_id = i2.category_id 
+        and i1.price < i2.price 
+    where i2.price is null;`
 
 ### Пользователи  
 
 Запрос 1:  
-`select year(birthdate) as year, count(gender = 'M' or null) as M, count(gender = 'F' or null) as F from users u group by year;`
+`select  
+    year(birthdate) as year,  
+    count(gender = 'M' or null) as M,  
+    count(gender = 'F' or null) as F  
+    from users u  
+    group by year;`
 
 Запрос 2:  
-`select * from users u left join users_banned b on u.id = b.user_id where user_id is null;`
+`select *  
+    from users u  
+    left join users_banned b  
+        on u.id = b.user_id  
+    where user_id is null;` 
 
 ### Сокращатель ссылок
 
