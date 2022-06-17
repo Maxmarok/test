@@ -2,16 +2,16 @@
 ## Тестовое задание для соискателя на позицию php-разработчика (Laravel)
 
 1. Товары с максимальной ценой
-Запрос: `select * from items i1 left join items i2 on i1.category_id = i2.category_id and i1.price < i2.price where i2.price is null;`
+  Запрос: `select * from items i1 left join items i2 on i1.category_id = i2.category_id and i1.price < i2.price where i2.price is null;`
 
 2. Пользователи
-Запрос 1: `select year(birthdate) as year, count(gender = 'M' or null) as M, count(gender = 'F' or null) as F from users u group by year;`
-Запрос 2: `select * from users u left join users_banned b on u.id = b.user_id where user_id is null;`
+  Запрос 1: `select year(birthdate) as year, count(gender = 'M' or null) as M, count(gender = 'F' or null) as F from users u group by year;`
+  Запрос 2: `select * from users u left join users_banned b on u.id = b.user_id where user_id is null;`
 
 3. Сокращатель ссылок
 
 Развернуть проект через Docker:
-1. Установить [Docker](https://hub.docker.com/signup?redirectTo=/subscription%3Fplan%3Dfree)
+1. Установить и запустить [Docker](https://hub.docker.com/signup?redirectTo=/subscription%3Fplan%3Dfree)
 
 2. Клонировать проект из репозитория командой `git clone https://github.com/Maxmarok/test`, после перейти в директорию `test`
 
