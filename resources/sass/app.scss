@@ -1,0 +1,38 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import '_variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+
+.main {
+    display: flex;
+    height: 100vh;
+    background-color: $body-bg;
+}
+
+.col-form-label {
+    font-weight: bold;
+}
+
+.btn-success {
+    color: $white;
+    background-color: $success;
+    border-color: $success;
+
+    &:hover {
+        color: $white;
+        background-color: $success-dark;
+        border-color: $success-dark;
+    }
+}
+
+.form-control,
+.form-control:focus {
+    border-color: unset;
+    outline: none;
+}

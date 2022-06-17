@@ -1,4 +1,5 @@
 <?php
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', ['as' => 'main', 'uses' => 'MainController@main']);
+Route::post('/create_url', ['as' => 'create_url', 'uses' => 'UrlController@createShortLink']);
+
+Route::get('/stats', function() {
+    return redirect()->route('main');
 });
+
+Route::get('/{code}', ['as' => 'short', 'uses' => 'UrlController@redirectUser']);
+Route::get('/stats/{code}', ['as' => 'stats', 'uses' => 'StatisticController@get']);
