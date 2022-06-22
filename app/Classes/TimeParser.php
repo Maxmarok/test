@@ -2,8 +2,6 @@
 
 namespace App\Classes;
 
-use App\Classes\UserInfo;
-use App\Models\Statisticts;
 use Carbon\Carbon;
 
 class TimeParser

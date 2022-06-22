@@ -24,6 +24,10 @@ class CodeMakerTest extends TestCase
     public function testCodeGenerate()
     {
         $code = $this->codeMaker->getCode();
+        $shortCode = $this->codeMaker->getShortCode();
+
         $this->assertIsString($code);
+        $this->assertIsString($shortCode);
+        $this->assertEquals($shortCode, substr($code, 0, 4));
     }
 }

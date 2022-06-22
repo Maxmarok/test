@@ -18,7 +18,7 @@ class UrlController extends Controller
         $arr = $request->validated();
         $codeMaker = new CodeMaker();
 
-        $arr['code'] = $codeMaker->getCode();
+        $arr['code'] = $codeMaker->getShortCode();
 
         if(isset($arr['ended_at']) && !isset($arr['endless'])) {
             $timeParser = new TimeParser();
@@ -26,7 +26,7 @@ class UrlController extends Controller
         }
 
         $url = Short_urls::create($arr);
-        $statsCode = $this->createSecretCode($url->id);
+        $statsCode = $this->createSecretCode($url->id, $codeMaker->getCode());
 
         return redirect()->route('stats', $statsCode)->with('success', 'Ссылка успешно уменьшена!');
     }
@@ -36,7 +36,7 @@ class UrlController extends Controller
         $shortUrl = Short_urls::code($code)->first();
         $timeParser = new TimeParser();
 
-        if(!$shortUrl || !$timeParser->checkTimeWithNow($shortUrl->ended_at)) {
+        if(!$shortUrl || ($shortUrl->ended_at && !$timeParser->checkTimeWithNow($shortUrl->ended_at))) {
             return redirect()->route('main')->with('error', 'Время жизни ссылки закончилось, запросите новую ссылку у автора');
         }
 
@@ -47,13 +47,11 @@ class UrlController extends Controller
         return redirect($originUrl);
     }
 
-    public function createSecretCode(String $url)
+    public function createSecretCode(String $url, String $code)
     {
-        $codeMaker = new CodeMaker();
-
         $secretCode = [
             'url_id' => $url,
-            'code' => $codeMaker->getCode(),
+            'code' => $code,
         ];
 
         $url = Secret_codes::create($secretCode);
