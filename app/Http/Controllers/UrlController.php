@@ -13,51 +13,41 @@ use App\Models\Statisticts;
 
 class UrlController extends Controller
 {
-    public function createShortLink(CreateUrlRequest $request)
+    public function createUrl(CreateUrlRequest $request)
     {
         $arr = $request->validated();
-        $codeMaker = new CodeMaker();
+        $url = $this->createShortLink($arr);
+        $secretCode = $this->createSecretCode($url);
 
-        $arr['code'] = $codeMaker->getShortCode();
-
-        if(isset($arr['ended_at']) && !isset($arr['endless'])) {
-            $timeParser = new TimeParser();
-            $arr['ended_at'] = $timeParser->getDateFromFormat($arr['ended_at']);
-        }
-
-        $url = Short_urls::create($arr);
-        $statsCode = $this->createSecretCode($url->id, $codeMaker->getCode());
-
-        return redirect()->route('stats', $statsCode)->with('success', 'Ссылка успешно уменьшена!');
+        return redirect()->route('stats', $secretCode)->with('success', 'Ссылка успешно уменьшена!');
     }
 
     public function redirectUser($code)
     {
-        $shortUrl = Short_urls::code($code)->first();
-        $timeParser = new TimeParser();
+        $shortUrl = $this->getShortUrl($code);
+        $redirectUrl = $this->getRedirectUrl($shortUrl);
 
-        if(!$shortUrl || ($shortUrl->ended_at && !$timeParser->checkTimeWithNow($shortUrl->ended_at))) {
-            return redirect()->route('main')->with('error', 'Время жизни ссылки закончилось, запросите новую ссылку у автора');
-        }
-
-        $urlGenerator = new UrlGenerator();
-        $originUrl = $urlGenerator->getOriginUrl($shortUrl->origin_url);
-        $this->createStatistics($shortUrl->id);
-
-        return redirect($originUrl);
+        return redirect($redirectUrl);
     }
 
-    public function createSecretCode(String $url, String $code)
+    public function createSecretCode(Object $url)
     {
-        $secretCode = [
-            'url_id' => $url,
-            'code' => $code,
+        $secretCodeArr = [
+            'url_id' => $url->id,
+            'code' => $url->code,
         ];
 
-        $url = Secret_codes::create($secretCode);
-        return $url->code;
+        $secretCode = Secret_codes::create($secretCodeArr);
+        return $secretCode->code;
     }
 
+    protected function getRedirectUrl($url)
+    {
+        $urlGenerator = new UrlGenerator();
+        $originUrl = $urlGenerator->getOriginUrl($url->origin_url);
+        $this->createStatistics($url->id);
+        return $originUrl;
+    }
 
     public function createStatistics(String $urlId)
     {
@@ -75,5 +65,36 @@ class UrlController extends Controller
         ];
 
         return Statisticts::create($arr);
+    }
+
+    protected function getEndedAt($arr)
+    {
+        if(isset($arr['ended_at']) && !isset($arr['endless'])) {
+            $timeParser = new TimeParser();
+            return $timeParser->getDateFromFormat($arr['ended_at']);
+        }
+
+        return null;
+    }
+
+    protected function createShortLink($arr)
+    {
+        $codeMaker = new CodeMaker();
+        $arr['code'] = $codeMaker->getCode();
+        $arr['ended_at'] = $this->getEndedAt($arr);
+
+        return Short_urls::create($arr);
+    }
+
+    protected function getShortUrl($code)
+    {
+        $shortUrl = Short_urls::code($code)->first();
+        $timeParser = new TimeParser();
+
+        if(!$shortUrl || ($shortUrl->ended_at && !$timeParser->checkTimeWithNow($shortUrl->ended_at))) {
+            return redirect()->route('main')->with('error', 'Время жизни ссылки закончилось, запросите новую ссылку у автора');
+        }
+
+        return $shortUrl;
     }
 }

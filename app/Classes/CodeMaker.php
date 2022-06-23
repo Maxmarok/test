@@ -3,30 +3,24 @@
 namespace App\Classes;
 
 use App\Models\Short_urls;
+use App\Models\Statisticts;
 use Illuminate\Support\Str;
 
 class CodeMaker
 {
     private $code;
     private $length;
-    private $slice;
 
     public function __construct()
     {
-        $this->length = 10;
-        $this->slice = 4;
+        $this->length = 4;
         $this->createCode();
     }
 
-    public function getCode()
+    public function getCode(int $length = null)
     {
+        $this->checkNewGenerate($length);
         return $this->code;
-    }
-
-    public function getShortCode(int $slice = null)
-    {
-        if($slice && ($slice > 3 || $slice < 8)) $this->slice = $slice;
-        return $this->sliceCode();
     }
 
     protected function createCode()
@@ -46,8 +40,11 @@ class CodeMaker
         return Short_urls::where('code', $this->code)->first();
     }
 
-    protected function sliceCode()
+    protected function checkNewGenerate($length)
     {
-        return substr($this->code, 0, $this->slice);
+        if($length !== $this->length && ($length >= 3 && $length <= 10))  {
+            $this->length = $length;
+            $this->createCode();
+        }
     }
 }

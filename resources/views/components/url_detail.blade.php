@@ -1,6 +1,6 @@
 <div>
     <div class="form-group">
-        <label for="staticEmail" class="col-sm-2 col-form-label">Уменьшенная ссылка:</label>
+        <label for="staticEmail" class="col-sm-12 col-form-label">Уменьшенная ссылка:</label>
         <div class="d-flex col-sm-12">
             <div class="col-sm-6">
                 <input class="form-control col-sm-6" id="short" type="text" value="{{$shortUrl}}" readonly>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="form-group">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Оригинальная ссылка:</label>
+        <label for="inputPassword" class="col-sm-12 col-form-label">Оригинальная ссылка:</label>
         <div class="d-flex col-sm-12">
             <div class="col-sm-6">
                 <input class="form-control" id="origin_url" type="text" value="{{$fullUrl}}" readonly>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="form-group">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Срок жизни ссылки до:</label>
+        <label for="inputPassword" class="col-sm-12 col-form-label">Срок жизни ссылки до:</label>
         <div class="d-flex col-sm-12">
             <div class="col-sm-6">
                 <input class="form-control" id="ended_time" type="text" value="{{$endedTime}}" disabled>
@@ -29,7 +29,7 @@
 
 
     <div class="form-group">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Ссылка на статистику:</label>
+        <label for="inputPassword" class="col-sm-12 col-form-label">Ссылка на статистику:</label>
         <div class="d-flex col-sm-12">
             <div class="col-sm-6">
                 <input class="form-control" id="stats" type="text" value="{{$statsUrl}}" readonly>

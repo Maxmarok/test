@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', ['as' => 'main', 'uses' => 'MainController@main']);
-Route::post('/create_url', ['as' => 'create_url', 'uses' => 'UrlController@createShortLink']);
+Route::post('/create_url', ['as' => 'create_url', 'uses' => 'UrlController@createUrl']);
 
 Route::get('/stats', function() {
     return redirect()->route('main');
